@@ -17,7 +17,7 @@ app.get('/portfolio', (req, res) => {
   res.send(portfolio);
 })
 
-app.post('/portfolioAdd', (req, res) => {
+app.post('/portfolioInsert', (req, res) => {
   // const reqName = req.body.name
   // const reqPortfolioForm = req.body.portfolioForm
   const reqName = req.body.name
@@ -38,8 +38,8 @@ app.post('/portfolioAdd', (req, res) => {
         endDate: reqEndDate,
         headCount: reqHeadCount,
         list: reqList
-      }
-      )
+      })
+      res.send({ msg: "완료" })
     }
   }
 
@@ -48,6 +48,15 @@ app.post('/portfolioAdd', (req, res) => {
   console.log(reqList)
   console.log("이름", reqName, "/포폴", reqPort)
 
+})
+
+app.get('/portfolio/addMember', (req, res) => {
+  const reqName = req.query.name
+  portfolio.push({
+    name: reqName,
+    portfolioForm: []
+  })
+  res.send({ msg: "완료" })
 })
 
 app.listen(5050, () => { console.log("5050 port open") })
