@@ -7,50 +7,6 @@ app.use(cors())
 app.use(express.json())
 
 const portfolio = [
-  {
-    name: "김아무개",
-    portfolioForm: [
-      {
-        title: "김씨네",
-        content: "김씨네 이야기",
-        startDate: "2023-08-03",
-        endDate: "2023-08-20",
-        headCount: 2,
-        list: ["김아무개", "박아무개"]
-      },
-      {
-        title: "김씨네222",
-        content: "김씨네 이야기222",
-        startDate: "2023-08-21",
-        endDate: "2023-08-30",
-        headCount: 3,
-        list: ["김아무개", "박아무개", "최아무개"]
-      },
-    ]
-  },
-  {
-    name: "박아무개",
-    portfolioForm: [
-      {
-        title: "박씨네",
-        content: "박씨네 이야기",
-        startDate: "2023-08-03",
-        endDate: "2023-08-20",
-        headCount: 1,
-        list: ["박아무개"]
-      },
-    ]
-  },
-  {
-    name: "이아무개",
-    portfolioForm: [
-    ]
-  },
-  {
-    name: "최아무개",
-    portfolioForm: [
-    ]
-  },
 ]
 
 app.get('/', (req, res) => {
