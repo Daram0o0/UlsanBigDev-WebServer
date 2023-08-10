@@ -2,9 +2,12 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const fs = require('fs')
+const bodyParser = require('body-parser');
+const filePath = 'data.json';
 
 app.use(cors())
 app.use(express.json())
+app.use(bodyParser.json());
 
 const portfolio = [
 ]
@@ -14,8 +17,23 @@ app.get('/', (req, res) => {
 })
 
 app.get('/portfolio', (req, res) => {
-  res.send(portfolio);
-})
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send({ error: 'An error occurred while reading the data file.' });
+      return;
+    }
+
+    try {
+      const parsedData = JSON.parse(data);
+      res.json(parsedData);
+    } catch (parseError) {
+      console.error(parseError);
+      res.status(500).send({ error: 'An error occurred while parsing the data.' });
+    }
+  });
+});
+
 
 app.post('/portfolioInsert', (req, res) => {
   // const reqName = req.body.name
@@ -43,10 +61,21 @@ app.post('/portfolioInsert', (req, res) => {
     }
   }
 
-  res.send(reqTitle)
-  console.log(reqTitle)
-  console.log(reqList)
-  console.log("이름", reqName, "/포폴", reqPort)
+  const jsonFile = JSON.stringify(portfolio);
+  fs.writeFile(filePath, jsonFile, 'utf8', (err) => {
+    if (err) {
+      console.log(err);
+      res.send({ msg: err });
+    } else {
+      console.log("success");
+      res.send({ message: "success" });
+    }
+  })
+
+  // res.send(reqTitle)
+  // console.log(reqTitle)
+  // console.log(reqList)
+  // console.log("이름", reqName, "/포폴", reqPort)
 
 })
 
@@ -57,6 +86,17 @@ app.get('/portfolio/addMember', (req, res) => {
     portfolioForm: []
   })
   res.send({ msg: "완료" })
+  // const jsonFile = JSON.stringify(portfolio);
+
+  // fs.writeFile(filePath, jsonFile, 'utf8', (err) => {
+  //   if (err) {
+  //     console.log(err);
+  //     res.send({ msg: err });
+  //   } else {
+  //     console.log("success");
+  //     res.send({ message: "success" });
+  //   }
+  // })
 })
 
 app.listen(5050, () => { console.log("5050 port open") })
